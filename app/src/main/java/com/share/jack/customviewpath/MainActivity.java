@@ -12,12 +12,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        findViewById(R.id.am_btn_test).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, TestActivity.class));
-//            }
-//        });
 
         findViewById(R.id.am_btn_status).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,11 +20,5 @@ public class MainActivity extends Activity {
             }
         });
 
-//        findViewById(R.id.am_btn_location).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, LocationActivity.class));
-//            }
-//        });
     }
 }

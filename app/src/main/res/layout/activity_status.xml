@@ -7,24 +7,6 @@
     android:orientation="vertical">
 
 
-    <com.share.jack.customviewpath.widget.CustomPathView
-        android:id="@+id/as_shape"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:padding="1dp"
-        app:progress_radius="25dp"
-        app:progress_width="2dp" />
-
-    <com.share.jack.customviewpath.widget.WaterWaveProgress
-        android:id="@+id/as_progress"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:padding="1dp"
-        app:progress_radius="25dp"
-        app:progress_width="2dp" />
-
 
     <com.share.jack.customviewpath.widget.CustomStatusView
         android:id="@+id/as_status"

@@ -1,5 +1,7 @@
 package com.share.jack.customviewpath.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -87,6 +89,7 @@ public class CustomStatusView extends View {
     }
 
     public void initPath() {
+
         mPathCircle = new Path();
         mPathMeasure = new PathMeasure();
         mPathCircleDst = new Path();
@@ -109,8 +112,9 @@ public class CustomStatusView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.translate(getPaddingLeft(), getPaddingTop());   //将当前画布的点移到getPaddingLeft,getPaddingTop,后面的操作都以该点作为参照点
+
         if (mStatus == StatusEnum.Loading) {    //正在加载
+            canvas.translate(getPaddingLeft(), getPaddingTop());   //将当前画布的点移到getPaddingLeft,getPaddingTop,后面的操作都以该点作为参照点
             mPaint.setColor(progressColor);
             if (startAngle == minAngle) {
                 sweepAngle += 6;
@@ -144,6 +148,7 @@ public class CustomStatusView extends View {
                 mPathMeasure.setPath(successPath, false);
                 mPathMeasure.getSegment(0, successValue * mPathMeasure.getLength(), mPathCircleDst, true);
                 canvas.drawPath(mPathCircleDst, mPaint);
+                canvas.save();
             }
         }else if (mStatus == StatusEnum.LoadFailure){      //加载失败
             mPaint.setColor(loadFailureColor);
@@ -168,8 +173,10 @@ public class CustomStatusView extends View {
                 mPathMeasure.setPath(failurePathLeft, false);
                 mPathMeasure.getSegment(0, failValueLeft * mPathMeasure.getLength(), mPathCircleDst, true);
                 canvas.drawPath(mPathCircleDst, mPaint);
+                canvas.save();
             }
         }
+
     }
 
     private void setStatus(StatusEnum status) {
@@ -183,16 +190,17 @@ public class CustomStatusView extends View {
     }
 
     public void loadSuccess() {
-        setStatus(StatusEnum.LoadSuccess);
+        initPath();
         startSuccessAnim();
     }
 
     public void loadFailure() {
-        setStatus(StatusEnum.LoadFailure);
+        initPath();
         startFailAnim();
     }
 
     private void startSuccessAnim() {
+        mStatus = StatusEnum.LoadSuccess;
         ValueAnimator success = ValueAnimator.ofFloat(0f, 1.0f);
         success.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -201,6 +209,7 @@ public class CustomStatusView extends View {
                 invalidate();
             }
         });
+
         //组合动画,一先一后执行
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(success).after(circleAnimator);
@@ -209,6 +218,7 @@ public class CustomStatusView extends View {
     }
 
     private void startFailAnim() {
+        mStatus = StatusEnum.LoadFailure;
         ValueAnimator failLeft = ValueAnimator.ofFloat(0f, 1.0f);
         failLeft.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -225,6 +235,7 @@ public class CustomStatusView extends View {
                 invalidate();
             }
         });
+
         //组合动画,一先一后执行
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(failLeft).after(circleAnimator).before(failRight);
